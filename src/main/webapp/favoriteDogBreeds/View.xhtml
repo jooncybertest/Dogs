@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  - Created by Osman Balci, Junsoo Kim on 2024.2.8
+  - Copyright © 2024 Osman Balci. All rights reserved.
+  -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="jakarta.tags.core"
+      xmlns:f="jakarta.faces.core">
+
+<ui:composition>
+    <!--
+    ==========================================================
+    |  Clicking the VIEW button in List.xhtml displays this  |
+    |  Dialog window showing the selected country's data.    |
+    ==========================================================
+    height="400" makes the dialog window to be vertically scrollable
+    width="60%" and responsive="true" make the dialog window horizontally responsive
+    class="scalableImage" makes the displayed image responsive
+    -->
+    <p:dialog id="DogViewDlg" header="#{dogController.selected.name}" widgetVar="DogViewDialog"
+              modal="true" position="center" appendTo="@(body)" width="70%" height="400"
+              showEffect="slide" hideEffect="fade" responsive="true" >
+        <!--
+        Various effect options can be used when showing and closing the dialog.
+        Use showEffect and hideEffect options to apply these effects:
+            blind, bounce, clip, drop, explode, fade, fold, highlight, puff,
+            pulsate, scale, shake, size, slide and transfer. [PrimeFaces Documentation]
+        -->
+        <h:form id="dogViewForm" class="ui-datatable-data">
+            <div align="center">
+                <!--
+                We define the local variable countryCode and use it below as a method parameter.
+                The local variable's value is set by the EL expression during view build time.
+                -->
+                <c:set var="dogName" value="#{dogController.selected.name}" scope="request" />
+
+                <!-- Display the selected dog's image -->
+                <img src="https://manta.cs.vt.edu/csd/dogs/#{dogController.removeWhiteSpaceFromDogName(dogName)}Face.png"
+                     alt="Dog image" style="width:60%" />
+
+                <br /><br />
+                <h:panelGroup id="display">
+                    <table border="1" align="center" cellpadding="5" cellspacing="0">
+                        <tbody>
+                        <tr>
+                            <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                                <h:outputText value="Dog Name:"/>
+                            </td>
+                            <td align="left" valign="middle" bgcolor="oldlace">
+                                <a href="https://www.akc.org/dog-breeds/#{dogController.changeSpaceToDash(dogController.selected.name)}/" target="_blank" style="color:blue">#{dogController.selected.name}</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                                <h:outputText value="Description:"/>
+                            </td>
+                            <td align="left" valign="middle"  bgcolor="oldlace">
+                                <h:outputText value="#{dogController.selected.description}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                                <h:outputText value="Dog Face Photo:"/>
+                            </td>
+                            <td align="left" valign="middle" bgcolor="oldlace">
+                                <img src="#{dogController.selected.face_photo_url}" style="width: 30%" alt="dog face"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                                <h:outputText value="Life Expectancy [min, max]:"/>
+                            </td>
+                            <td align="left" valign="middle" bgcolor="oldlace">
+                                <h:outputText value="[#{dogController.selected.min_life_expectancy}, #{dogController.selected.max_life_expectancy}] Years" >
+                                </h:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                                <h:outputText value="Countries of Origin" escape="false" />
+                            </td>
+                            <td align="left" valign="middle" bgcolor="oldlace">
+                                <h:outputText value="#{dogController.selected.origin}">
+                                </h:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                                <h:outputText value="Female Weight [min, max]:"/>
+                            </td>
+                            <td align="left" valign="middle"  bgcolor="oldlace">
+                                <h:outputText value="[#{dogController.selected.min_weight_female}, #{dogController.selected.max_weight_female}] lbs"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                                <h:outputText value="Male Weight [min, max]:"/>
+                            </td>
+                            <td align="left" valign="middle"  bgcolor="oldlace">
+                                <h:outputText value="[#{dogController.selected.min_weight_male}, #{dogController.selected.max_weight_male}] lbs"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                                <h:outputText value="Female Height [min, max]:"/>
+                            </td>
+                            <td align="left" valign="middle"  bgcolor="oldlace">
+                                <h:outputText value="[#{dogController.selected.min_height_female}, #{dogController.selected.max_height_female}] inches"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                                <h:outputText value="Male Height [min, max]:"/>
+                            </td>
+                            <td align="left" valign="middle"  bgcolor="oldlace">
+                                <h:outputText value="[#{dogController.selected.min_height_male}, #{dogController.selected.max_height_male}] inches"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                                <h:outputText value="Colors:"/>
+                            </td>
+                            <td align="left" valign="middle"  bgcolor="oldlace">
+                                <h:outputText value="#{dogController.selected.colors}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                                <h:outputText value="Temperament:"/>
+                            </td>
+                            <td align="left" valign="middle"  bgcolor="oldlace">
+                                <h:outputText value="#{dogController.selected.temperament}"/>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </h:panelGroup>
+                <br />
+                <h:panelGroup>
+                    <!-- CLOSE button -->
+                    <p:commandButton value="Close" icon="fas fa-window-close" styleClass="ui-button-outlined"
+                                     onclick="PF('DogViewDialog').hide()" />
+                </h:panelGroup>
+            </div>
+        </h:form>
+    </p:dialog>
+</ui:composition>
+</html>

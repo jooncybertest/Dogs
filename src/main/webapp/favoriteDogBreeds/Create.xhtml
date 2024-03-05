@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  - Copyright (c) 2024. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  - Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  - Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  - Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  - Vestibulum commodo. Ut rhoncus gravida arcu.
+  - Created by Junsoo Kim on 2024.2.19
+  - Copyright © 2024 Osman Balci. All rights reserved.
+  -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+    <!--
+    ===================================================================
+    |  Clicking the CREATE button in List.xhtml displays this Dialog  |
+    |  window for the user to enter the data to create a new Dog. |
+    ===================================================================
+    -->
+    <p:dialog id="DogCreateDlg" header="Create New Dog" widgetVar="DogCreateDialog"
+              modal="true" position="center" appendTo="@(body)" width="70%" height="400"
+              showEffect="slide" hideEffect="fade" responsive="true">
+        <!--
+        Various effect options can be used when showing and closing the dialog.
+        Use showEffect and hideEffect options to apply these effects:
+            blind, bounce, clip, drop, explode, fade, fold, highlight, puff,
+            pulsate, scale, shake, size, slide and transfer. [PrimeFaces Documentation]
+        -->
+
+        <!-- class="ui-datatable-data" in siteStyles reduces row paddings -->
+        <h:form id="DogCreateForm" class="ui-datatable-data">
+            <h:panelGroup id="display">
+                <!--
+                When the user clicks the CREATE button in List.xhtml, actionListener="#{countryController.prepareCreate}"
+                executes the prepareCreate method in which a new Country object is instantiated and its object reference
+                is stored in the "selected" instance variable. Thus, "selected" points to a newly created Country object
+                with property (instance variable) values set to empty or null. The inputText data fields below are
+                intended to assign user-provided values to the properties of the newly created Country object.
+                -->
+                <table border="0" align="center" cellpadding="5" cellspacing="0">
+                    <tbody>
+                    <tr>
+                        <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                            <p:outputLabel value="Name:" for="name"/>
+                        </td>
+                        <td align="left" valign="middle" bgcolor="oldlace" width="100%">
+                            <p:inputText id="name" value="#{dogController.selected.name}" style="width:100%"
+                                         required="true" requiredMessage="Dog Name is Required!"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                            <p:outputLabel value="Description: " for="description"/>
+                        </td>
+                        <td align="left" valign="top" bgcolor="oldlace">
+                            <p:inputTextarea id="description" value="#{dogController.selected.description}"
+                                             style="width:40%; height:100px; resize: none;"
+                                             required="true" requiredMessage="Description is Required!"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                            <p:outputLabel value="Face Photo URL: " for="facePhotoURL"/>
+                        </td>
+                        <td align="left" valign="middle" bgcolor="oldlace" width="100%">
+                            <p:inputText id="facePhotoURL" value="#{dogController.selected.face_photo_url}" style="width:100%"
+                                         required="true" requiredMessage="Face Photo URL is Required!"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                            <p:outputLabel value="Full Photo URL: " for="fullPhotoURL"/>
+                        </td>
+                        <td align="left" valign="middle" bgcolor="oldlace" width="100%">
+                            <p:inputText id="fullPhotoURL" value="#{dogController.selected.full_photo_url}" style="width:100%"
+                                           required="true" requiredMessage="Full Photo URL is Required!"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                            <p:outputLabel value="Website URL:" for="websiteURL" escape="false"/>
+                        </td>
+                        <td align="left" valign="middle" bgcolor="oldlace" width="100%">
+                            <p:inputText id="websiteURL" value="#{dogController.selected.website_url}" style="width:100%"
+                                           required="true" requiredMessage="Website URL is Required!"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                            <p:outputLabel value="Minimum Life Expectancy:" for="minLifeExpectancy"/>
+                        </td>
+                        <td align="left" valign="middle" bgcolor="oldlace" width="100%">
+                            <p:inputNumber id="minLifeExpectancy" value="#{dogController.selected.min_life_expectancy}" style="width:30%" symbol=" years" symbolPosition="s"
+                                         required="true" requiredMessage="Minimum Life Expectancy is Required!"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                            <p:outputLabel value="Maximum Life Expectancy:" for="maxLifeExpectancy"/>
+                        </td>
+                        <td align="left" valign="middle" bgcolor="oldlace" width="100%">
+                            <p:inputNumber id="maxLifeExpectancy" value="#{dogController.selected.max_life_expectancy}" style="width:30%" symbol=" years" symbolPosition="s"
+                                         required="true" requiredMessage="Maximum Life Expectancy is Required!"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                            <p:outputLabel value="Countries of Origin:" for="origin"/>
+                        </td>
+                        <td align="left" valign="middle" bgcolor="oldlace" width="100%">
+                            <p:inputText id="origin" value="#{dogController.selected.origin}" style="width:100%" symbol=" lbs" symbolPosition="s"
+                                         required="true" requiredMessage="Countries of Origin is Required!"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                            <p:outputLabel value="Female Minimum Weight:" for="femaleMinimumWeight"/>
+                        </td>
+                        <td align="left" valign="middle" bgcolor="oldlace" width="100%">
+                            <p:inputNumber id="femaleMinimumWeight" value="#{dogController.selected.min_weight_female}" style="width:30%" symbol=" lbs" symbolPosition="s"
+                                         required="true" requiredMessage="Female Minimum Weight is Required!"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                            <p:outputLabel value="Female Maximum Weight:" for="femaleMaximumWeight"/>
+                        </td>
+                        <td align="left" valign="middle" bgcolor="oldlace" width="100%">
+                            <p:inputNumber id="femaleMaximumWeight" value="#{dogController.selected.max_weight_female}" style="width:30%" symbol=" lbs" symbolPosition="s"
+                                         required="true" requiredMessage="Female Maximum Weight is Required!"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                            <p:outputLabel value="Male Minimum Weight:" for="maleMinimumWeight"/>
+                        </td>
+                        <td align="left" valign="middle" bgcolor="oldlace" width="100%">
+                            <p:inputNumber id="maleMinimumWeight" value="#{dogController.selected.min_weight_male}" style="width:30%" symbol=" lbs" symbolPosition="s"
+                                         required="true" requiredMessage="Male Minimum Weight is Required!"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                            <p:outputLabel value="Male Maximum Weight:" for="maleMaximumWeight"/>
+                        </td>
+                        <td align="left" valign="middle" bgcolor="oldlace" width="100%">
+                            <p:inputNumber id="maleMaximumWeight" value="#{dogController.selected.max_weight_male}" style="width:30%" symbol=" lbs" symbolPosition="s"
+                                         required="true" requiredMessage="Male Maximum Weight is Required!"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                            <p:outputLabel value="Female Minimum Height:" for="femaleMinimumHeight"/>
+                        </td>
+                        <td align="left" valign="middle" bgcolor="oldlace" width="100%">
+                            <p:inputNumber id="femaleMinimumHeight" value="#{dogController.selected.min_height_female}" style="width:30%" symbol=" inches" symbolPosition="s"
+                                         required="true" requiredMessage="Female Minimum Height is Required!"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                            <p:outputLabel value="Female Maximum Height:" for="femaleMaximumHeight"/>
+                        </td>
+                        <td align="left" valign="middle" bgcolor="oldlace" width="100%">
+                            <p:inputNumber id="femaleMaximumHeight" value="#{dogController.selected.max_height_female}" style="width:30%" symbol=" inches" symbolPosition="s"
+                                         required="true" requiredMessage="Female Maximum Height is Required!"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                            <p:outputLabel value="Male Minimum Height:" for="maleMinimumHeight"/>
+                        </td>
+                        <td align="left" valign="middle" bgcolor="oldlace" width="100%">
+                            <p:inputNumber id="maleMinimumHeight" value="#{dogController.selected.min_height_male}" style="width:30%" symbol=" inches" symbolPosition="s"
+                                         required="true" requiredMessage="Male Minimum Height is Required!"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                            <p:outputLabel value="Male Maximum Height:" for="maleMaximumHeight"/>
+                        </td>
+                        <td align="left" valign="middle" bgcolor="oldlace" width="100%">
+                            <p:inputNumber id="maleMaximumHeight" value="#{dogController.selected.max_height_male}" style="width:30%" symbol=" inches" symbolPosition="s"
+                                         required="true" requiredMessage="Male Maximum Height is Required!"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                            <p:outputLabel value="Colors: " for="color"/>
+                        </td>
+                        <td align="left" valign="top" bgcolor="oldlace">
+                            <p:inputTextarea id="color" value="#{dogController.selected.colors}"
+                                             style="width:40%; height:100px; resize: none;"
+                                             required="true" requiredMessage="Color is Required!"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="middle" nowrap="nowrap" bgcolor="papayawhip">
+                            <p:outputLabel value="Temparament: " for="temperament"/>
+                        </td>
+                        <td align="left" valign="top" bgcolor="oldlace">
+                            <p:inputTextarea id="temperament" value="#{dogController.selected.temperament}"
+                                             style="width:40%; height:100px; resize: none;"
+                                             required="true" requiredMessage="Temperament is Required!"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </h:panelGroup>
+
+            <h:panelGroup>
+                <br/>
+                <div align="center">
+                    <!-- SAVE button -->
+                    <p:commandButton value="Save" icon="fas fa-save" styleClass="rounded-button"
+                                     ajax="false" actionListener="#{dogController.createAfterValidation()}"
+                                     update="display,:DogListForm:datalist,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"
+                                     oncomplete="handleSubmit(args,'DogCreateDialog');"/>
+                    &nbsp;
+                    <!--
+                    CANCEL button: Call the cancel() method immediately without first rendering this Jakarta Faces page.
+                    The cancel() method will make the selected country object null and show the List page.
+                    -->
+                    <p:commandButton value="Cancel" icon="fas fa-ban" styleClass="ui-button-outlined"
+                                     action="#{dogController.cancel()}" ajax="false" immediate="true"
+                                     onclick="PF('DogCreateDialog').hide()"/>
+                </div>
+            </h:panelGroup>
+        </h:form>
+    </p:dialog>
+</ui:composition>
+</html>

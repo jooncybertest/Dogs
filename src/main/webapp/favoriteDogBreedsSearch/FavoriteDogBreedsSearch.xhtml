@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  - Copyright (c) 2024. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  - Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  - Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  - Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  - Vestibulum commodo. Ut rhoncus gravida arcu.
+  - Created by Junsoo Kim on 2024.2.18
+  - Copyright © 2024 Osman Balci. All rights reserved.
+  -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui">
+
+<!-- This page is constructed based on the siteTemplate -->
+<ui:composition template="/template/siteTemplate.xhtml">
+
+    <ui:define name="title">
+        <!-- Set the page title -->
+        <h:outputText value="Favorite Dog Breeds Search" />
+    </ui:define>
+
+    <!-- Create the content for this page below -->
+    <ui:define name="editableContent">
+
+        <h:form id="DatabaseSearchForm">
+            <div align="center">
+                <h:graphicImage value="#{resource['images:searchDatabase.png']}"
+                                style="width: 150px" />
+                <h1>Favorite Dog Breeds Database Search</h1>
+                <br />
+                <table width="80%" border="1" align="center" cellpadding="5" cellspacing="0">
+                    <tbody>
+                    <tr>
+                        <th width="60" nowrap="nowrap" scope="col">Type</th>
+                        <th scope="col">Description</th>
+                        <th width="200" scope="col">Search</th>
+                    </tr>
+                    <tr>
+                        <td width="60" align="center" nowrap="nowrap">1</td>
+                        <td align="center">Search Name, Description, Origin, Color, or Temperament individually or search in each</td>
+                        <td width="200" align="center">
+                            <p:commandButton value="Search Type 1" icon="fas fa-search" styleClass="rounded-button"
+                                             update=":DBSearchDlg1" oncomplete="PF('DBSearchDialog1').show()" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="60" align="center" nowrap="nowrap">2</td>
+                        <td align="center">Min Life Expectancy is between minLifeExpectancyLowestQ and minLifeExpectancyHighestQ AND Max Life Expectancy is between maxLifeExpectancyLowestQ and maxLifeExpectancyHighestQ</td>
+                        <td width="200" align="center">
+                            <p:commandButton value="Search Type 2" icon="fas fa-search" styleClass="rounded-button"
+                                             update=":DBSearchDlg2" oncomplete="PF('DBSearchDialog2').show()" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="60" align="center" nowrap="nowrap">3</td>
+                        <td align="center">Countries of Origin contains originQ AND Colors contains colorQ AND Temperament contains temperamentQ</td>
+                        <td width="200" align="center">
+                            <p:commandButton value="Search Type 3" icon="fas fa-search" styleClass="rounded-button"
+                                             update=":DBSearchDlg3" oncomplete="PF('DBSearchDialog3').show()" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="60" align="center" nowrap="nowrap">4</td>
+                        <td align="center">Female Min Weight ≥ femaleMinWeightQ AND Female Max Weight ≤ femaleMaxWeightQ</td>
+                        <td width="200" align="center">
+                            <p:commandButton value="Search Type 4" icon="fas fa-search" styleClass="rounded-button"
+                                             update=":DBSearchDlg4" oncomplete="PF('DBSearchDialog4').show()" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="60" align="center" nowrap="nowrap">5</td>
+                        <td align="center">Male Min Weight ≥ maleMinWeightQ AND Male Max Weight ≤ maleMaxWeightQ</td>
+                        <td width="200" align="center">
+                            <p:commandButton value="Search Type 5" icon="fas fa-search" styleClass="rounded-button"
+                                             update=":DBSearchDlg5" oncomplete="PF('DBSearchDialog5').show()" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="60" align="center" nowrap="nowrap">6</td>
+                        <td align="center">Female Min Height ≥ femaleMinHeightQ AND Female Max Height ≤ femaleMaxHeightQ</td>
+                        <td width="200" align="center">
+                            <p:commandButton value="Search Type 6" icon="fas fa-search" styleClass="rounded-button"
+                                             update=":DBSearchDlg6" oncomplete="PF('DBSearchDialog6').show()" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="60" align="center" nowrap="nowrap">7</td>
+                        <td align="center">Male Min Height ≥ maleMinHeightQ AND Male Max Height ≤ maleMaxHeightQ</td>
+                        <td width="200" align="center">
+                            <p:commandButton value="Search Type 7" icon="fas fa-search" styleClass="rounded-button"
+                                             update=":DBSearchDlg7" oncomplete="PF('DBSearchDialog7').show()" />
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <br />
+            </div>
+        </h:form>
+
+        <!--
+        **************************************
+        Dialog pop-up window for Type 1 Search
+        **************************************
+        -->
+
+
+
+
+        <p:dialog id="DBSearchDlg1" header="Type 1 Search" widgetVar="DBSearchDialog1"
+                  modal="true" position="center" appendTo="@(body)"
+                  showEffect="slide" hideEffect="fade" responsive="true" >
+
+            <h:form id="DogSearchForm1">
+                <p:panel>
+                    <div align="center">
+
+                        <!-- Search category is selected here. -->
+                        <p:selectOneMenu id="searchCategory" value="#{dogController.searchCategory}"
+                                         required="true" requiredMessage="Please select a category!" >
+
+                            <f:selectItem itemLabel="Select Category" itemValue="" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="All" itemValue="all"/>
+                            <f:selectItem itemLabel="Name" itemValue="Name"/>
+                            <f:selectItem itemLabel="Description" itemValue="Description"/>
+                            <f:selectItem itemLabel="Origin" itemValue="Origin"/>
+                            <f:selectItem itemLabel="Color" itemValue="Color"/>
+                            <f:selectItem itemLabel="Temperament" itemValue="Temperament"/>
+
+                        </p:selectOneMenu>
+                        <br/><br/>
+
+                        <!-- Search string is entered here. -->
+                        <p:inputText id="searchString" value="#{dogController.searchString}"
+                                     required="true" requiredMessage="Please enter a search string!"
+                                     placeholder="Enter search string" >
+                        </p:inputText>
+
+
+                        <br/><br/><br/>
+
+                            <!-- SUBMIT button -->
+                        <p:commandButton value="Submit" icon="fas fa-arrow-up" styleClass="rounded-button"
+                                             ajax="false" action="#{dogController.search(1)}" />
+                        &nbsp;
+                            <!-- CANCEL button -->
+                        <p:commandButton value="Cancel" icon="fas fa-ban" styleClass="ui-button-outlined"
+                                             onclick="PF('DBSearchDialog1').hide()"/>
+                    </div>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+
+        <!--
+        **************************************
+        Dialog pop-up window for Type 2 Search
+        **************************************
+        Country population is between minPopulationQ and maxPopulationQ
+        -->
+        <p:dialog id="DBSearchDlg2" header="Type 2 Search" widgetVar="DBSearchDialog2"
+                  modal="true" position="center" appendTo="@(body)"
+                  showEffect="slide" hideEffect="fade" responsive="true" >
+
+            <h:form id="DogSearchForm2">
+                <p:panel>
+                    <div align="center">
+
+                        <p:outputLabel for="minLifeExpectancyLowestQ" value="Min Life Expectancy Lowest:" escape="false"/>
+                        <br/><br/>
+
+                        <p:inputNumber id="minLifeExpectancyLowestQ" value="#{dogController.minLifeExpectancyLowestQ}"
+                                     required="true" requiredMessage="Minimum Life Expectancy Lowest is required!!" symbol="years" symbolPosition="s">
+                        </p:inputNumber>
+                        <br/><br/>
+
+                        <p:outputLabel for="minLifeExpectancyHighestQ" value="Min Life Expectancy Highest:" escape="false"/>
+                        <br/><br/>
+
+                        <p:inputNumber id="minLifeExpectancyHighestQ" value="#{dogController.minLifeExpectancyHighestQ}"
+                                       required="true" requiredMessage="Minimum Life Expectancy Highest is required!!" symbol="years" symbolPosition="s">
+                        </p:inputNumber>
+                        <br/><br/>
+
+                        <p:outputLabel for="maxLifeExpectancyLowestQ" value="Max Life Expectancy Lowest:" escape="false"/>
+                        <br/><br/>
+
+                        <p:inputNumber id="maxLifeExpectancyLowestQ" value="#{dogController.maxLifeExpectancyLowestQ}"
+                                       required="true" requiredMessage="Minimum Life Expectancy Lowest is required!!" symbol="years" symbolPosition="s">
+                        </p:inputNumber>
+                        <br/><br/>
+
+                        <p:outputLabel for="maxLifeExpectancyHighestQ" value="Max Life Expectancy Highest:" escape="false"/>
+                        <br/><br/>
+
+                        <p:inputNumber id="maxLifeExpectancyHighestQ" value="#{dogController.maxLifeExpectancyHighestQ}"
+                                       required="true" requiredMessage="Minimum Life Expectancy Lowest is required!!" symbol="years" symbolPosition="s">
+                        </p:inputNumber>
+                        <br/><br/><br/>
+
+                        <p:commandButton value="Submit" icon="fas fa-search" styleClass="rounded-button"
+                                         ajax="false" action="#{dogController.search(2)}"/>
+                        &nbsp;
+
+                        <!-- CANCEL button -->
+                        <p:commandButton value="Cancel" icon="fas fa-ban" styleClass="ui-button-outlined"
+                                         onclick="PF('DBSearchDialog2').hide()"/>
+                        <br/><br/><br/>
+                    </div>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+
+        <!--
+        **************************************
+        Dialog pop-up window for Type 3 Search
+        **************************************
+        -->
+        <p:dialog id="DBSearchDlg3" header="Type 3 Search" widgetVar="DBSearchDialog3"
+                  modal="true" position="center" appendTo="@(body)"
+                  showEffect="slide" hideEffect="fade" responsive="true" >
+
+            <h:form id="DogSearchForm3">
+                <p:panel>
+                    <div align="center">
+
+                        <p:outputLabel for="originQ" value="Countries of Origin" escape="false"/>
+                        <br/><br/>
+
+                        <p:inputText id="originQ" value="#{dogController.originQ}"
+                                       required="true" requiredMessage="Countries of Origin is required!">
+                        </p:inputText>
+                        <br/><br/>
+
+                        <p:outputLabel for="originQ" value="Colors" escape="false"/>
+                        <br/><br/>
+
+                        <p:inputText id="colorQ" value="#{dogController.colorQ}"
+                                     required="true" requiredMessage="Color is required!">
+                        </p:inputText>
+                        <br/><br/>
+
+                        <p:outputLabel for="originQ" value="Temperament" escape="false"/>
+                        <br/><br/>
+
+                        <p:inputText id="TemperamentQ" value="#{dogController.temperamentQ}"
+                                     required="true" requiredMessage="Temperament is required!">
+                        </p:inputText>
+
+                        <br/><br/><br/>
+
+                        <p:commandButton value="Submit" icon="fas fa-search" styleClass="rounded-button"
+                                         ajax="false" action="#{dogController.search(3)}"/>
+                        &nbsp;
+
+                        <!-- CANCEL button -->
+                        <p:commandButton value="Cancel" icon="fas fa-ban" styleClass="ui-button-outlined"
+                                         onclick="PF('DBSearchDialog3').hide()"/>
+                        <br/><br/>
+                    </div>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+
+        <!--
+        **************************************
+        Dialog pop-up window for Type 4 Search
+        **************************************
+        -->
+        <p:dialog id="DBSearchDlg4" header="Type 4 Search" widgetVar="DBSearchDialog4"
+                  modal="true" position="center" appendTo="@(body)"
+                  showEffect="slide" hideEffect="fade" responsive="true" >
+
+            <h:form id="DogSearchForm4">
+                <p:panel>
+                    <div align="center">
+
+                        <p:outputLabel for="femaleMinWeightQ" value="Female Min Weight &ge;" escape="false"/>
+                        <br/><br/>
+
+                        <p:inputNumber id="femaleMinWeightQ" value="#{dogController.femaleMinWeightQ}"
+                                     required="true" requiredMessage="Female Min Weight is required!" symbol="lbs" symbolPosition="s">
+                        </p:inputNumber>
+                        <br/><br/>
+
+                        <p:outputLabel for="femaleMaxWeightQ" value="Female Max Weight &le;" escape="false"/>
+                        <br/><br/>
+                        <p:inputNumber id="femaleMaxWeightQ" value="#{dogController.femaleMaxWeightQ}"
+                                     required="true" requiredMessage="Female Max Weight is required!" symbol="lbs" symbolPosition="s">
+                        </p:inputNumber>
+
+                        <br/><br/><br/>
+
+                        <p:commandButton value="Submit" icon="fas fa-search" styleClass="rounded-button"
+                                         ajax="false" action="#{dogController.search(4)}"/>
+                        &nbsp;
+
+                        <!-- CANCEL button -->
+                        <p:commandButton value="Cancel" icon="fas fa-ban" styleClass="ui-button-outlined"
+                                         onclick="PF('DBSearchDialog4').hide()"/>
+                        <br/><br/>
+                    </div>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+
+        <!--
+        **************************************
+        Dialog pop-up window for Type 5 Search
+        **************************************
+        -->
+        <p:dialog id="DBSearchDlg5" header="Type 5 Search" widgetVar="DBSearchDialog5"
+                  modal="true" position="center" appendTo="@(body)"
+                  showEffect="slide" hideEffect="fade" responsive="true" >
+
+            <h:form id="DogSearchForm5">
+                <p:panel>
+                    <div align="center">
+
+                        <p:outputLabel for="maleMinWeightQ" value="male Min Weight &ge;" escape="false"/>
+                        <br/><br/>
+
+                        <p:inputNumber id="maleMinWeightQ" value="#{dogController.maleMinWeightQ}"
+                                     required="true" requiredMessage="Male Min Weight is required!" symbol="lbs" symbolPosition="s">
+                        </p:inputNumber>
+                        <br/><br/>
+
+                        <p:outputLabel for="maleMaxWeightQ" value="male Max Weight &le;" escape="false"/>
+                        <br/><br/>
+                        <p:inputNumber id="maleMaxWeightQ" value="#{dogController.maleMaxWeightQ}"
+                                     required="true" requiredMessage="Male Max Weight is required!" symbol="lbs" symbolPosition="s">
+                        </p:inputNumber>
+
+                        <br/><br/><br/>
+
+                        <p:commandButton value="Submit" icon="fas fa-search" styleClass="rounded-button"
+                                         ajax="false" action="#{dogController.search(5)}"/>
+                        &nbsp;
+
+                        <!-- CANCEL button -->
+                        <p:commandButton value="Cancel" icon="fas fa-ban" styleClass="ui-button-outlined"
+                                         onclick="PF('DBSearchDialog5').hide()"/>
+                        <br/><br/>
+                    </div>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+
+        <!--
+        **************************************
+        Dialog pop-up window for Type 6 Search
+        **************************************
+        -->
+        <p:dialog id="DBSearchDlg6" header="Type 6 Search" widgetVar="DBSearchDialog6"
+                  modal="true" position="center" appendTo="@(body)"
+                  showEffect="slide" hideEffect="fade" responsive="true" >
+
+            <h:form id="DogSearchForm6">
+                <p:panel>
+                    <div align="center">
+
+                        <p:outputLabel for="femaleMinHeightQ" value="Female Min Weight &ge;" escape="false"/>
+                        <br/><br/>
+
+                        <p:inputNumber id="femaleMinHeightQ" value="#{dogController.femaleMinHeightQ}"
+                                     required="true" requiredMessage="Female Min height is required!" symbol="inches" symbolPosition="s">
+                        </p:inputNumber>
+                        <br/><br/>
+
+                        <p:outputLabel for="femaleMaxHeightQ" value="Female Max Height &le;" escape="false"/>
+                        <br/><br/>
+                        <p:inputNumber id="femaleMaxHeightQ" value="#{dogController.femaleMaxHeightQ}"
+                                     required="true" requiredMessage="Female Max Height is required!" symbol="inches" symbolPosition="s">
+                        </p:inputNumber>
+
+                        <br/><br/><br/>
+
+                        <p:commandButton value="Submit" icon="fas fa-search" styleClass="rounded-button"
+                                         ajax="false" action="#{dogController.search(6)}"/>
+                        &nbsp;
+
+                        <!-- CANCEL button -->
+                        <p:commandButton value="Cancel" icon="fas fa-ban" styleClass="ui-button-outlined"
+                                         onclick="PF('DBSearchDialog6').hide()"/>
+                        <br/><br/>
+                    </div>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+
+        <!--
+        **************************************
+        Dialog pop-up window for Type 7 Search
+        **************************************
+        -->
+        <p:dialog id="DBSearchDlg7" header="Type 7 Search" widgetVar="DBSearchDialog7"
+                  modal="true" position="center" appendTo="@(body)"
+                  showEffect="slide" hideEffect="fade" responsive="true" >
+
+            <h:form id="DogSearchForm7">
+                <p:panel>
+                    <div align="center">
+
+                        <p:outputLabel for="maleMinHeightQ" value="Male Min Weight &ge;" escape="false"/>
+                        <br/><br/>
+
+                        <p:inputNumber id="maleMinHeightQ" value="#{dogController.maleMinHeightQ}"
+                                     required="true" requiredMessage="Male Min height is required!" symbol="inches" symbolPosition="s">
+                        </p:inputNumber>
+                        <br/><br/>
+
+                        <p:outputLabel for="maleMaxHeightQ" value="Male Max Height &le;" escape="false"/>
+                        <br/><br/>
+                        <p:inputNumber id="maleMaxHeightQ" value="#{dogController.maleMaxHeightQ}"
+                                     required="true" requiredMessage="Male Max Height is required!" symbol="inches" symbolPosition="s">
+                        </p:inputNumber>
+
+                        <br/><br/><br/>
+
+                        <p:commandButton value="Submit" icon="fas fa-search" styleClass="rounded-button"
+                                         ajax="false" action="#{dogController.search(7)}"/>
+                        &nbsp;
+
+                        <!-- CANCEL button -->
+                        <p:commandButton value="Cancel" icon="fas fa-ban" styleClass="ui-button-outlined"
+                                         onclick="PF('DBSearchDialog7').hide()"/>
+                        <br/><br/>
+                    </div>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+    </ui:define>
+</ui:composition>
+</html>

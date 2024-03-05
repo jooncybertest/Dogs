@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  - Created by Osman Balci, Junsoo Kim on 2024.2.8
+  - Copyright © 2024 Osman Balci. All rights reserved.
+  -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="jakarta.tags.core">
+
+<!-- This page is constructed based on the siteTemplate -->
+<ui:composition template="/template/siteTemplate.xhtml">
+    <ui:define name="title">
+        <!-- Set the page title -->
+        <h:outputText value="Favorite Dog Breeds" />
+    </ui:define>
+
+    <!-- Create the content for this page below -->
+    <ui:define name="editableContent">
+
+        <!-- In case of Jakarta Faces validation error, set 'selected' to null in countryController -->
+        <c:if test="#{facesContext.validationFailed}">
+            ${dogController.unselect()}
+        </c:if>
+
+        <!-- Set 'selected' to null in dogController when the user refreshes / reloads this Jakarta Faces page -->
+        <f:metadata>
+            <f:viewAction action="#{dogController.unselect()}" rendered="#{facesContext.postback}" />
+        </f:metadata>
+
+        <div align="center">
+            <h:form id="DogListForm">
+                <p:panel header="List of Favorite Dogs">
+                    <p:dataTable id="datalist"
+                                 value="#{dogController.listOfDogs}"
+                                 var="aDog"
+                                 widgetVar="dogsDataTable"
+                                 selectionMode="single"
+                                 selection="#{dogController.selected}"
+                                 reflow="true"
+                                 showGridlines="true"
+                                 paginator="true"
+                                 rowKey="#{aDog.id}"
+                                 rows="5"
+                                 rowsPerPageTemplate="5,10,20,30,50,70,90"
+                                 emptyMessage="No Dog found for the search query entered!" >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton dogButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton dogButton"/>
+
+                        <!--
+                        *************************
+                        *   Data Table Header   *
+                        *************************
+                        -->
+                        <f:facet name="header">
+                            <div align="center">
+                                <p:inputText id="globalFilter" onkeyup="PF('dogsDataTable').filter()" filterMatchMode="contains"
+                                             style="width: 250px"
+                                             placeholder="Enter Global Search Query" />
+                                &nbsp;
+                                <p:commandButton type="button" value="Clear All Filters" styleClass="ui-button-outlined"
+                                                 icon="fas fa-undo" onclick="PF('dogsDataTable').clearFilters()" />
+                            </div>
+                        </f:facet>
+
+                        <!--
+                        *********************
+                        *    Dog Name   *
+                        *********************
+                        -->
+                        <p:column headerText="Name" sortBy="#{aDog.name}"
+                                  filterBy="#{aDog.name}" filterMatchMode="contains"
+                                  style="width: 100px; text-align: center; vertical-align: top">
+                            <a href="#{aDog.website_url}" target="_blank" style="color:blue">#{aDog.name}</a>
+                        </p:column>
+
+                        <!--
+                        *********************
+                        *    Face Photo   *
+                        *********************
+                        -->
+                        <p:column headerText="Face Photo" style="width: 80px; text-align: center; vertical-align: top">
+                            <h:graphicImage value="#{aDog.face_photo_url}" width="80px" />
+                        </p:column>
+
+                        <!--
+                        ******************************
+                        *    Description   *
+                        ******************************
+                        -->
+                        <p:column headerText="Description" sortBy="#{aDog.description}"
+                                  filterBy="#{aDog.description}" filterMatchMode="contains"
+                                  style="width: 200px; vertical-align: top">
+                            <h:outputText value="#{aDog.description}" styleClass="scrollableTextBox"/>
+                        </p:column>
+
+
+                        <!--
+                        *********************
+                        *    Min Life Years   *
+                        *********************
+                        -->
+                        <p:column headerText="Min Years" sortBy="#{aDog.min_life_expectancy}" filterBy="#{aDog.min_life_expectancy}"
+                                  style="width: 60px; text-align: center; vertical-align: top">
+                            <h:outputText value="#{aDog.min_life_expectancy}">
+                                <!-- Insert commas into population number as thousand separators -->
+                                <h:outputText value="#{aDog.min_life_expectancy}"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <!--
+                        ***************************
+                        *    Max Life Years   *
+                        ***************************
+                        -->
+                        <p:column headerText="Max Years" sortBy="#{aDog.max_life_expectancy}" filterBy="#{aDog.max_life_expectancy}"
+                                  style="width: 60px; text-align: center; vertical-align: top">
+                            <h:outputText value="#{aDog.max_life_expectancy}">
+                                <h:outputText value="#{aDog.max_life_expectancy}"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <!--
+                        ***************************
+                        *    Countries of Origin   *
+                        ***************************
+                        The total area is the sum of all land and inland water bodies (lakes, reservoirs, rivers).
+                        -->
+                        <p:column headerText="Countries of Origin" sortBy="#{aDog.origin}" filterBy="#{aDog.origin}"
+                                  style="width: 100px; vertical-align: top">
+                            <h:outputText value="#{aDog.origin}">
+                                <h:outputText value="#{aDog.origin}" styleClass="scrollableTextBox"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <!--
+                        ******************************
+                        *    Female Min Weight   *
+                        ******************************
+                        -->
+                        <p:column headerText="Female Min Weight" sortBy="#{aDog.min_weight_female}"
+                                  filterBy="#{aDog.min_weight_female}" filterMatchMode="contains"
+                                  style="width: 60px; text-align: center; vertical-align: top">
+                            <h:outputText value="#{aDog.min_weight_female}"/>
+                        </p:column>
+
+                        <!--
+                        *************************
+                        *    Female Max Weight   *
+                        *************************
+                        -->
+                        <p:column headerText="Female Max Weight" sortBy="#{aDog.max_weight_female}"
+                                  filterBy="#{aDog.max_weight_female}" filterMatchMode="contains"
+                                  style="width: 60px; text-align: center; vertical-align: top">
+                            <h:outputText value="#{aDog.max_weight_female}"/>
+                        </p:column>
+
+                        <!--
+                        ******************************
+                        *    Male Min Weight   *
+                        ******************************
+                        -->
+                        <p:column headerText="Male Min Weight" sortBy="#{aDog.min_weight_male}"
+                                  filterBy="#{aDog.min_weight_male}" filterMatchMode="contains"
+                                  style="width: 60px; text-align: center; vertical-align: top">
+                            <h:outputText value="#{aDog.min_weight_male}"/>
+                        </p:column>
+
+                        <!--
+                        ******************************
+                        *    Male Max Weight   *
+                        ******************************
+                        -->
+                        <p:column headerText="Male Max Weight" sortBy="#{aDog.max_weight_male}"
+                                  filterBy="#{aDog.max_weight_male}" filterMatchMode="contains"
+                                  style="width: 60px; text-align: center; vertical-align: top">
+                            <h:outputText value="#{aDog.min_weight_male}"/>
+                        </p:column>
+
+                        <!--
+                        ******************************
+                        *    Female Min Height   *
+                        ******************************
+                        -->
+                        <p:column headerText="Female Min Height" sortBy="#{aDog.min_height_female}"
+                                  filterBy="#{aDog.min_height_female}" filterMatchMode="contains"
+                                  style="width: 60px; text-align: center; vertical-align: top">
+                            <h:outputText value="#{aDog.min_height_female}"/>
+                        </p:column>
+
+                        <!--
+                        *************************
+                        *    Female Max Height   *
+                        *************************
+                        -->
+                        <p:column headerText="Female Max Height" sortBy="#{aDog.max_height_female}"
+                                  filterBy="#{aDog.max_height_female}" filterMatchMode="contains"
+                                  style="width: 60px; text-align: center; vertical-align: top">
+                            <h:outputText value="#{aDog.max_height_female}"/>
+                        </p:column>
+
+                        <!--
+                        ******************************
+                        *    Male Min Height   *
+                        ******************************
+                        -->
+                        <p:column headerText="Male Min Height" sortBy="#{aDog.min_height_male}"
+                                  filterBy="#{aDog.min_height_male}" filterMatchMode="contains"
+                                  style="width: 60px; text-align: center; vertical-align: top">
+                            <h:outputText value="#{aDog.min_height_male}"/>
+                        </p:column>
+
+                        <!--
+                        ******************************
+                        *    Male Max Height   *
+                        ******************************
+                        -->
+                        <p:column headerText="Male Max Height" sortBy="#{aDog.max_height_male}"
+                                  filterBy="#{aDog.max_height_male}" filterMatchMode="contains"
+                                  style="width: 60px; text-align: center; vertical-align: top">
+                            <h:outputText value="#{aDog.min_height_male}"/>
+                        </p:column>
+
+                        <!--
+                        ******************************
+                        *    Colors   *
+                        ******************************
+                        -->
+                        <p:column headerText="Colors" sortBy="#{aDog.colors}"
+                                  filterBy="#{aDog.colors}" filterMatchMode="contains"
+                                  style="width: 100px; vertical-align: top">
+                            <h:outputText value="#{aDog.colors}" styleClass="scrollableTextBox"/>
+                        </p:column>
+
+                        <!--
+                        ******************************
+                        *    Temperament   *
+                        ******************************
+                        -->
+                        <p:column headerText="Temperament" sortBy="#{aDog.temperament}"
+                                  filterBy="#{aDog.temperament}" filterMatchMode="contains"
+                                  style="width: 100px; vertical-align: top">
+                            <h:outputText value="#{aDog.temperament}" styleClass="scrollableTextBox"/>
+                        </p:column>
+
+
+                        <!--
+                        *************************
+                        *   Data Table Footer   *
+                        *************************
+                        -->
+                        <f:facet name="footer">
+                            <div align="center">
+                                <!-- CREATE button: id is used since it is referenced to be activated or deactivated -->
+                                <p:commandButton id="createButton" value="Create" icon="fas fa-plus" styleClass="rounded-button"
+                                                 actionListener="#{dogController.prepareCreate()}"
+                                                 update=":DogCreateForm" oncomplete="PF('DogCreateDialog').show()"/>
+                                &nbsp;
+                                <!-- VIEW button: id is used since it is referenced to be activated or deactivated -->
+                                <p:commandButton id="viewButton" value="View" icon="fas fa-eye" styleClass="rounded-button"
+                                                 update=":DogViewDlg" oncomplete="PF('DogViewDialog').show()"
+                                                 disabled="#{empty dogController.selected}"/>
+                                &nbsp;
+                                <!-- EDIT button: id is used since it is referenced to be activated or deactivated -->
+                                <p:commandButton id="editButton" value="Edit" icon="fas fa-edit" styleClass="rounded-button"
+                                                 update=":DogEditDlg" oncomplete="PF('DogEditDialog').show()"
+                                                 disabled="#{empty dogController.selected}"/>
+                                &nbsp;
+                                <!-- ***************************************************
+                                Display a Confirmation dialog for the DELETE button
+                                id is used since it is referenced to be activated or not
+                                **************************************************** -->
+                                <p:commandButton id="deleteButton" value="Delete" icon="fas fa-trash-alt"  styleClass="rounded-button"
+                                                 actionListener="#{dogController.destroy()}"
+                                                 update="datalist,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"
+                                                 disabled="#{empty dogController.selected}">
+
+                                    <p:confirm header="Deletion Confirmation"
+                                               message="Are you sure you want to permanently delete the selected country #{dogController.selected.name} from the database?"/>
+                                </p:commandButton>
+
+                                <p:confirmDialog id="confirmDialogBox" global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                                    <div align="center">
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fas fa-window-close" />
+                                        &nbsp;
+                                        <p:commandButton value="Yes" type="button" class="ui-confirmdialog-yes ui-button-danger" icon="fas fa-check-square" />
+                                    </div>
+                                </p:confirmDialog>
+                                <!-- *******************************************
+                                End of Display of the DELETE Confirmation dialog
+                                ******************************************** -->
+                                &nbsp;
+                                <p:commandButton id="dogButton" value="Dog Photo" icon="fas fa-dog" styleClass="rounded-button"
+                                                 update=":DogPhotoDlg" oncomplete="PF('DogViewDialog').show()"
+                                                 disabled="#{empty dogController.selected}"/>
+
+                            </div>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+        </div>
+
+        <!-- Clicking the Create button displays the included Create.xhtml file in a dialog window on top of this page. -->
+        <ui:include src="/favoriteDogBreeds/Create.xhtml"/>
+
+        <!-- Clicking the View button displays the included View.xhtml file in a dialog window on top of this page. -->
+        <ui:include src="/favoriteDogBreeds/View.xhtml"/>
+
+        <!-- Clicking the Edit button displays the included Edit.xhtml file in a dialog window on top of this page. -->
+        <ui:include src="/favoriteDogBreeds/Edit.xhtml"/>
+
+        <!-- Clicking the Dog button displays the included Dog.xhtml file in a dialog window on top of this page. -->
+        <ui:include src="/favoriteDogBreeds/Dog.xhtml"/>
+
+
+    </ui:define>
+</ui:composition>
+</html>

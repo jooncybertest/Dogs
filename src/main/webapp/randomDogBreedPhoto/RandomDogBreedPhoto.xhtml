@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - Created by Osman Balci, Junsoo Kim on 2024.2.8
+  - Copyright © 2024 Osman Balci. All rights reserved.
+  -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- This page is constructed based on the siteTemplate -->
+    <ui:composition template="/template/siteTemplate.xhtml">
+        <ui:define name="title">
+            <!-- Set the page title -->
+            <h:outputText value="Random Dog Breed Photo" />
+        </ui:define>
+
+        <!-- Create the content for this page below -->
+        <ui:define name="editableContent">
+
+            <h:form id="dogBreedForm">
+                <div align="center">
+                    <br />
+                    <h1>Random Dog Breed Photo</h1>
+                    <br />
+                    <p:selectOneMenu id="from" value="#{dogBreedController.dogBreed}" >
+                        <f:selectItem itemLabel="Select a Dog Breed" itemValue=""/>
+                        <f:selectItems value="#{dogBreedController.listOfDogBreedNames}" />
+                    </p:selectOneMenu>
+                    <br/>
+
+                    <h:panelGroup>
+                        <br /><br />
+                        <h:graphicImage id="resultMsg" value="#{dogBreedController.dogBreedResult}" class="scalableImage"/>
+                        <br/><br/>
+                        <div align="center">
+                            <!-- CONVERT button -->
+                            <p:commandButton value="Show Dog Breed Random Photo" icon="fas fa-camera" styleClass="rounded-button"
+                                             update="resultMsg,:growlInfoMessage,:growlWarningMessage,:growlErrorMessage,:growlFatalMessage"
+                                             actionListener="#{dogBreedController.showRandomDogBreedPhoto()}" />
+                        </div>
+                    </h:panelGroup>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  - Copyright (c) 2024. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  - Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  - Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  - Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  - Vestibulum commodo. Ut rhoncus gravida arcu.
+  - Created by Junsoo Kim on 2024.2.20
+  - Copyright © 2024 Osman Balci. All rights reserved.
+  -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="jakarta.tags.core">
+
+<ui:composition>
+    <!--
+    =================================================================
+    |  Clicking the FLAG button in List.xhtml displays this Dialog  |
+    |  window showing the selected country's flag image.            |
+    =================================================================
+    -->
+    <p:dialog id="DogPhotoDlg" header="#{dogController.selected.name}" widgetVar="DogViewDialog"
+              modal="true" position="center" appendTo="@(body)" width="70%"
+              showEffect="slide" hideEffect="fade" responsive="true" >
+
+
+        <c:set var="dogName" value="#{dogController.selected.name}" scope="request" />
+
+        <h:form id="DogViewForm" class="ui-datatable-data">
+            <div align="center">
+                <img src="https://manta.cs.vt.edu/csd/dogs/#{dogController.removeWhiteSpaceFromDogName(dogName)}.png"
+                     alt="Dog image" class="scalableImage" />
+                <br /><br />
+                <h:panelGroup>
+                    <!-- CLOSE button -->
+                    <p:commandButton value="Close" icon="fas fa-window-close" styleClass="ui-button-outlined"
+                                     onclick="PF('DogViewDialog').hide()" />
+                </h:panelGroup>
+            </div>
+        </h:form>
+
+    </p:dialog>
+</ui:composition>
+</html>
