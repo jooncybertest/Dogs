@@ -23,10 +23,3 @@ Before starting, ensure you have the following installed:
 - Any IDE supporting Java (e.g., IntelliJ IDEA, Eclipse)
 - Apache Maven (for dependency management)
 
-### Installation
-
-1. **Clone the repository:**
-
-```bash
-git clone https://github.com/yourusername/dog.git
-cd dog
