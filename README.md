@@ -23,3 +23,7 @@ Before starting, ensure you have the following installed:
 - Any IDE supporting Java (e.g., IntelliJ IDEA, Eclipse)
 - Apache Maven (for dependency management)
 
+## Deployed Website by AWS
+
+http://18.119.117.152:8080/Dogs-Junsoo
+
