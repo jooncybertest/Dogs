@@ -23,7 +23,36 @@ Before starting, ensure you have the following installed:
 - Any IDE supporting Java (e.g., IntelliJ IDEA, Eclipse)
 - Apache Maven (for dependency management)
 
-## Deployed Website by AWS
+### Installation and Setup
 
-http://18.119.117.152:8080/Dogs-Junsoo
+1. Clone the repository:
+2. Set up the MySQL database:
+- Create a new database named `dog`.
+- Run the SQL scripts provided in the `database` directory to create tables and populate initial data.
+3. Import the project into your IDE and configure database connection settings in `application.properties`.
+4. Build and run the project using Maven:
+5. Access the application at `http://localhost:8080`.
 
+## Usage
+
+1. Sign in to the application using your credentials.
+2. Explore the various features such as CRUD operations, external API integration, and data table functionalities.
+3. Follow the on-screen instructions and tooltips to navigate through the application.
+
+## Contributing
+
+We welcome contributions from the community! If you'd like to contribute to the project, please follow these guidelines:
+- Check the [issue tracker](https://github.com/yourusername/dog/issues) for open issues or submit a new one.
+- Fork the repository and create a new branch for your changes.
+- Make your changes, ensuring they follow the project's coding standards and guidelines.
+- Submit a pull request with a descriptive title and summary of your changes.
+
+Please review the [CONTRIBUTING.md](CONTRIBUTING.md) file for more detailed instructions.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE.md).
+
+## Contact
+
+For any questions or feedback, feel free to contact us at junsoo@vt.edu.
